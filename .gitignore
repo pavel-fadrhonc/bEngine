@@ -1,5 +1,10 @@
 bin/
+bin-int/
 obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+.idea/
+.vs/
+bEngine/x64/
+Sandbox/x64/
