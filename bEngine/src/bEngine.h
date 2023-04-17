@@ -4,6 +4,7 @@
 
 #include "bEngine/Core.h"
 #include "bEngine/Application.h"
+#include "bEngine/Log.h"
 
 // --- Entry Point ------------------------------------------
 #include "bEngine/EntryPoint.h"

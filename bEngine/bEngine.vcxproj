@@ -15,9 +15,11 @@
     <ClInclude Include="src\bEngine\Application.h" />
     <ClInclude Include="src\bEngine\Core.h" />
     <ClInclude Include="src\bEngine\EntryPoint.h" />
+    <ClInclude Include="src\bEngine\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bEngine\Application.cpp" />
+    <ClCompile Include="src\bEngine\Log.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -75,11 +77,15 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)bEngine\vendor\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y /b "$(OutDir)bEngine.dll" "$(SolutionDir)\bin\$(Configuration)-$(Platform)\Sandbox\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -93,6 +99,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>bEngine\vendor\spdlog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
