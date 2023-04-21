@@ -8,3 +8,5 @@ riderModule.iml
 .vs/
 bEngine/x64/
 Sandbox/x64/
+*.sln
+*.vcxproj
