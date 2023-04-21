@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "Core.h"
-#include "spdlog/spdlog.h" 
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 namespace bEngine
 {
@@ -27,11 +28,11 @@ namespace bEngine
 #define BE_CORE_FATAL(...)  ::bEngine::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
 // Client log macros
-#define BE_CLIENT_TRACE(...)  ::bEngine::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define BE_CLIENT_INFO(...)   ::bEngine::Log::GetClientLogger()->info(__VA_ARGS__)
-#define BE_CLIENT_WARN(...)   ::bEngine::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define BE_CLIENT_ERROR(...)  ::bEngine::Log::GetClientLogger()->error(__VA_ARGS__)
-#define BE_CLIENT_FATAL(...)  ::bEngine::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define BE_TRACE(...)  ::bEngine::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define BE_INFO(...)   ::bEngine::Log::GetClientLogger()->info(__VA_ARGS__)
+#define BE_WARN(...)   ::bEngine::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define BE_ERROR(...)  ::bEngine::Log::GetClientLogger()->error(__VA_ARGS__)
+#define BE_FATAL(...)  ::bEngine::Log::GetClientLogger()->fatal(__VA_ARGS__)
 
 
 

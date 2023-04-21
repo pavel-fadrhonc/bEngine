@@ -9,7 +9,14 @@ workspace "bEngine"
 	}
 	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-	
+
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "bEngine/vendor/GLFW/include"
+
+-- include GLFW premake file
+include "bEngine/vendor/GLFW"
+
 project "bEngine"
 	location "bEngine"
 	kind "SharedLib"
@@ -17,6 +24,9 @@ project "bEngine"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}") 
+	
+	pchheader "bepch.h"
+	pchsource "bEngine/src/bepch.cpp"
 	
 	files
 	{
@@ -26,7 +36,15 @@ project "bEngine"
 	
 	includedirs 
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"bEngine/src",
+		"%{IncludeDir.GLFW}"
+	}
+	
+	links 
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 	
 	filter "system:windows"

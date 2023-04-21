@@ -1,3 +1,8 @@
 [submodule "bEngine/vendor/spdlog"]
 	path = bEngine/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+	
+[submodule "bEngine/vendor/GLFW"]
+	path = bEngine/vendor/GLFW
+	url = https://github.com/pavel-fadrhonc/glfw
+
