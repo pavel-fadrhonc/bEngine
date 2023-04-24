@@ -42,6 +42,7 @@ namespace bEngine {
 
     class BENGINE_API KeyReleasedEvent : public KeyEvent
     {
+    public:
         KeyReleasedEvent(int keycode)
             :KeyEvent(keycode) {}
 
