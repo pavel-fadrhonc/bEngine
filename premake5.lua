@@ -13,9 +13,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "bEngine/vendor/GLFW/include"
+IncludeDir["Glad"] = "bEngine/vendor/Glad/include"
 
 -- include GLFW premake file
 include "bEngine/vendor/GLFW"
+include "bEngine/vendor/Glad"
 
 project "bEngine"
 	location "bEngine"
@@ -38,12 +40,14 @@ project "bEngine"
 	{
 		"%{prj.name}/vendor/spdlog/include",
 		"bEngine/src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 	
 	links 
 	{
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 	
@@ -55,7 +59,8 @@ project "bEngine"
 		defines
 		{
 			"BE_PLATFORM_WINDOWS",
-			"BE_BUILD_DLL"
+			"BE_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		
 		postbuildcommands
@@ -66,14 +71,17 @@ project "bEngine"
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
 		symbols "On"
+		buildoptions "/MDd"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
 		optimize "On"
+		buildoptions "/MD"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
 		optimize "On"
+		buildoptions "/MD"
 		
 project "Sandbox"
 	location "Sandbox"
@@ -113,14 +121,17 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
 		symbols "On"
+		buildoptions "/MDd"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
 		optimize "On"
+		buildoptions "/MD"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
 		optimize "On"
+		buildoptions "/MD"
 		
 	
 

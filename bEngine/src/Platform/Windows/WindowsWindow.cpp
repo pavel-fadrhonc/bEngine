@@ -5,6 +5,7 @@
 #include "bEngine/Events/ApplicationEvent.h"
 #include "bEngine/Events/KeyEvent.h"
 #include "bEngine/Events/MouseEvent.h"
+#include "glad/glad.h"
 
 namespace bEngine
 {
@@ -49,6 +50,9 @@ namespace bEngine
 
         m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
+
+        int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+        BE_CORE_ASSERT(status, "Failed to initialize Glad.");
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
 
