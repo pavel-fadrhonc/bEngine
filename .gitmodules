@@ -6,3 +6,6 @@
 	path = bEngine/vendor/GLFW
 	url = https://github.com/pavel-fadrhonc/glfw
 
+[submodule "bEngine/vendor/imgui"]
+	path = bEngine/vendor/imgui
+	url = https://github.com/pavel-fadrhonc/imgui

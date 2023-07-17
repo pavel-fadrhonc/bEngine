@@ -1,6 +1,7 @@
 ﻿#include "bepch.h"
 #include "WindowsWindow.h"
 
+#include "backends/imgui_impl_glfw.h"
 #include "bEngine/Log.h"
 #include "bEngine/Events/ApplicationEvent.h"
 #include "bEngine/Events/KeyEvent.h"
@@ -100,8 +101,9 @@ namespace bEngine
                         break;
                     }
             }
-        });
-
+        }
+        );
+        
         glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
         {
             WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));

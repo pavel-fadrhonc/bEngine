@@ -6,6 +6,7 @@
 #include "bEngine/Application.h"
 #include "bEngine/Log.h"
 #include "bEngine/Layer.h"
+#include "bEngine/ImGui/ImGuiLayer.h"
 
 // --- Entry Point ------------------------------------------
 #include "bEngine/EntryPoint.h"
