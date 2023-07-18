@@ -25,6 +25,7 @@ project "bEngine"
 	location "bEngine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}") 
@@ -57,7 +58,6 @@ project "bEngine"
 	
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		
 		defines
@@ -75,22 +75,23 @@ project "bEngine"
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
 		symbols "On"
-		buildoptions "/MDd"
+		runtime "Debug"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
 		optimize "On"
-		buildoptions "/MD"
+		runtime "Release"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
 		optimize "On"
-		buildoptions "/MD"
+		runtime "Release"
 		
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}") 
@@ -104,12 +105,13 @@ project "Sandbox"
 	includedirs 
 	{
 		"bEngine/vendor/spdlog/include",
-		"bEngine/src"
+		"bEngine/src",
+		"%{IncludeDir.ImGui}"
 	}
 	
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
+		staticruntime "off"
 		systemversion "latest"
 		
 		defines
@@ -125,17 +127,17 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
 		symbols "On"
-		buildoptions "/MDd"
+		runtime "Debug"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
 		optimize "On"
-		buildoptions "/MD"
+		runtime "Release"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
 		optimize "On"
-		buildoptions "/MD"
+		runtime "Release"
 		
 	
 

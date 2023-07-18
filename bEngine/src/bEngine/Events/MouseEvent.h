@@ -66,7 +66,7 @@ namespace bEngine
         int m_Button;
     };
 
-    class BENGINE_API MouseButtonPressedEvent : MouseButtonEvent
+    class BENGINE_API MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonPressedEvent(int button)
@@ -82,7 +82,7 @@ namespace bEngine
         }
     };
 
-    class BENGINE_API MouseButtonReleasedEvent : MouseButtonEvent
+    class BENGINE_API MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonReleasedEvent(int button)

@@ -1,12 +1,14 @@
 ﻿#include "bepch.h"
 
 #include "ImGuiLayer.h"
-
-#include "imgui_internal.h"
-#include "backends/imgui_impl_glfw.h"
 #include "bEngine/Application.h"
-#include "GLFW/glfw3.h"
+#include "bEngine/Events/KeyEvent.h"
+#include "bEngine/Events/MouseEvent.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
+
+// Temporary
+#include <GL/gl.h>
+#include "GLFW/glfw3.h"
 
 namespace bEngine
 {
@@ -41,6 +43,36 @@ namespace bEngine
 
     void ImGuiLayer::OnEvent(Event& event)
     {
+        auto eventType = event.GetEventType();
+
+        // switch (eventType)
+        // {
+        //     case EventType::KeyPressed:
+        //         OnKeyPressedEvent(*dynamic_cast<KeyPressedEvent*>(&event)); break;
+        //     case EventType::KeyReleased:
+        //         OnKeyReleasedEvent(*dynamic_cast<KeyReleasedEvent*>(&event)); break;
+        //     case EventType::MouseMoved:
+        //         OnMouseMovedEvent(*dynamic_cast<MouseMovedEvent*>(&event)); break;
+        //     case EventType::MouseButtonPressed:
+        //         OnMouseButtonPressedEvent(*dynamic_cast<MouseButtonPressedEvent*>(&event)); break;
+        //     case EventType::MouseButtonReleased:
+        //         OnMouseButtonReleasedEvent(*dynamic_cast<MouseButtonReleasedEvent*>(&event)); break;
+        //     case EventType::MouseScrolled:
+        //         OnMouseScrolledEvent(*dynamic_cast<MouseScrolledEvent*>(&event)); break;
+        // }
+
+        EventDispatcher dispatcher(event);
+
+        using std::placeholders::_1;
+        dispatcher.Dispatch<KeyPressedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnKeyPressedEvent));
+        dispatcher.Dispatch<KeyReleasedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnKeyReleasedEvent));
+        dispatcher.Dispatch<MouseMovedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnMouseMovedEvent));
+        dispatcher.Dispatch<MouseButtonPressedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnMouseButtonPressedEvent));
+        dispatcher.Dispatch<MouseButtonReleasedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnMouseButtonReleasedEvent));
+        dispatcher.Dispatch<MouseScrolledEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnMouseScrolledEvent));
+        dispatcher.Dispatch<WindowResizeEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnWindowResizeEvent));
+        dispatcher.Dispatch<KeyTypedEvent>(BE_BIND_EVENT_FUNC(ImGuiLayer::OnKeyTypedEvent));
+        
         Layer::OnEvent(event);
     }
 
@@ -51,29 +83,6 @@ namespace bEngine
         ImGuiIO& io = ImGui::GetIO();
         io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
         io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-        //TEMPORARY: should eventually use bengine key codes
-        io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-        io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-        io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-        io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-        io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-        io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-        io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-        io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-        io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-        io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-        io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-        io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-        io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-        io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-        io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-        io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-        io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-        io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-        io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-        io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-        io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-        io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
         ImGui_ImplOpenGL3_Init("#version 410");
     }
@@ -83,7 +92,133 @@ namespace bEngine
         Layer::OnDetach();
     }
 
-    static ImGuiKey ImGui_ImplGlfw_KeyToImGuiKey(int key)
+    bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMouseButtonEvent(e.GetButtonCode(), true);
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMouseButtonEvent(e.GetButtonCode(), false);
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMousePosEvent(e.GetX(), e.GetY());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddMouseWheelEvent(e.GetXOffset(), e.GetYOffset());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        auto imgGuiKey = ImGuiLayer::ImGui_ImplGlfw_KeyToImGuiKey(e.GetKeyCode());
+        io.AddKeyEvent(imgGuiKey, true);
+
+        ProcessModifier(e);
+        
+        io.AddKeyEvent(ImGuiMod_Ctrl,  HasModifier(ModifierType::Ctrl));
+        io.AddKeyEvent(ImGuiMod_Shift, HasModifier(ModifierType::Shift));
+        io.AddKeyEvent(ImGuiMod_Alt,   HasModifier(ModifierType::Alt));
+        io.AddKeyEvent(ImGuiMod_Super, HasModifier(ModifierType::Super));
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        auto imgGuiKey = ImGuiLayer::ImGui_ImplGlfw_KeyToImGuiKey(e.GetKeyCode());
+        io.AddKeyEvent(imgGuiKey, false);
+
+        ProcessModifier(e);
+        
+        io.AddKeyEvent(ImGuiMod_Ctrl,  HasModifier(ModifierType::Ctrl));
+        io.AddKeyEvent(ImGuiMod_Shift, HasModifier(ModifierType::Shift));
+        io.AddKeyEvent(ImGuiMod_Alt,   HasModifier(ModifierType::Alt));
+        io.AddKeyEvent(ImGuiMod_Super, HasModifier(ModifierType::Super));
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.AddInputCharacter(e.GetKeyCode());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& e)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+        io.DisplayFramebufferScale = ImVec2(1.0, 1.0);
+
+        glViewport(0, 0, e.GetWidth(), e.GetHeight());
+        
+        return false;
+    }
+
+    void ImGuiLayer::ProcessModifier(KeyPressedEvent& keyPressedEvent)
+    {
+        auto keyCode = keyPressedEvent.GetKeyCode();
+        
+        if (keyCode == GLFW_KEY_LEFT_CONTROL || keyCode == GLFW_KEY_RIGHT_CONTROL)
+            AddModifier(ModifierType::Ctrl);
+        else if (keyCode == GLFW_KEY_LEFT_SHIFT || keyCode == GLFW_KEY_RIGHT_SHIFT)
+            AddModifier(ModifierType::Shift);
+        else if (keyCode == GLFW_KEY_LEFT_ALT || keyCode == GLFW_KEY_RIGHT_ALT)
+            AddModifier(ModifierType::Alt);
+        else if (keyCode == GLFW_KEY_LEFT_SUPER || keyCode == GLFW_KEY_RIGHT_SUPER)
+            AddModifier(ModifierType::Super);
+    }
+
+    void ImGuiLayer::ProcessModifier(KeyReleasedEvent& keyReleasedEvent)
+    {
+        auto keyCode = keyReleasedEvent.GetKeyCode();
+        
+        if (keyCode == GLFW_KEY_LEFT_CONTROL || keyCode == GLFW_KEY_RIGHT_CONTROL)
+            RemoveModifier(ModifierType::Ctrl);
+        else if (keyCode == GLFW_KEY_LEFT_SHIFT || keyCode == GLFW_KEY_RIGHT_SHIFT)
+            RemoveModifier(ModifierType::Shift);
+        else if (keyCode == GLFW_KEY_LEFT_ALT || keyCode == GLFW_KEY_RIGHT_ALT)
+            RemoveModifier(ModifierType::Alt);
+        else if (keyCode == GLFW_KEY_LEFT_SUPER || keyCode == GLFW_KEY_RIGHT_SUPER)
+            RemoveModifier(ModifierType::Super);
+    }
+
+    void ImGuiLayer::AddModifier(ModifierType modifier)
+    {
+        m_modifier = (ModifierType) ((int) modifier | (int) m_modifier);
+    }
+
+    void ImGuiLayer::RemoveModifier(ModifierType modifier)
+    {
+        m_modifier = (ModifierType) ((int) modifier & ~(int) m_modifier);
+    }
+
+    bool ImGuiLayer::HasModifier(ModifierType modifier)
+    {
+        return (int) m_modifier & (int) modifier;
+    }
+
+    ImGuiKey ImGuiLayer::ImGui_ImplGlfw_KeyToImGuiKey(int key)
     {
         switch (key)
         {

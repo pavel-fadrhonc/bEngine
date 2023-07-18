@@ -10,7 +10,7 @@ public:
 
     void OnUpdate() override
     {
-        BE_INFO("Example layer updated.");
+        //BE_INFO("Example layer updated.");
     }
     void OnEvent(bEngine::Event& event) override
     {

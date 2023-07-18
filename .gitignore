@@ -7,7 +7,9 @@ riderModule.iml
 .idea/
 .vs/
 bEngine/x64/
+/bEngine/vendor/imgui/bin/*
 Sandbox/x64/bin-int/
 *.sln
 *.vcxproj
 *.vcxproj.filters
+*.tlog

@@ -101,8 +101,16 @@ namespace bEngine
                         break;
                     }
             }
-        }
-        );
+        });
+
+        glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int character)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            
+            auto event = KeyTypedEvent((char) character);
+
+            data.EventCallback(event);
+        });
         
         glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
         {
