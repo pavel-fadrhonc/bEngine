@@ -8,6 +8,8 @@ workspace "bEngine"
 		"Dist"
 	}
 	
+	startproject "Sandbox"
+	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
@@ -16,10 +18,12 @@ IncludeDir["GLFW"] = "bEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "bEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "bEngine/vendor/imgui"
 
--- include GLFW premake file
-include "bEngine/vendor/GLFW"
-include "bEngine/vendor/Glad"
-include "bEngine/vendor/imgui"
+-- include dependency premake file
+group "Dependencies"
+	include "bEngine/vendor/GLFW"
+	include "bEngine/vendor/Glad"
+	include "bEngine/vendor/imgui"
+group ""
 
 project "bEngine"
 	location "bEngine"
@@ -69,7 +73,7 @@ project "bEngine"
 		
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 		
 	filter "configurations:Debug"
