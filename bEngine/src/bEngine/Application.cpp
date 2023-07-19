@@ -54,7 +54,7 @@ namespace bEngine
 
             auto[x,y] = Input::GetMousePosition();
 
-            BE_CORE_TRACE("{0}, {1}", x, y);
+            //BE_CORE_TRACE("{0}, {1}", x, y);
             
             m_Window->OnUpdate();
         }
@@ -90,7 +90,7 @@ namespace bEngine
                 break;
         }
         
-        BE_CORE_TRACE("{0}", e.ToString());
+        //BE_CORE_TRACE("{0}", e.ToString());
     }
 
 

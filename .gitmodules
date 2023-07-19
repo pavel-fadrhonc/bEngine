@@ -9,3 +9,6 @@
 [submodule "bEngine/vendor/imgui"]
 	path = bEngine/vendor/imgui
 	url = https://github.com/pavel-fadrhonc/imgui
+[submodule "bEngine/vendor/glm"]
+	path = bEngine/vendor/glm
+	url = https://github.com/g-truc/glm

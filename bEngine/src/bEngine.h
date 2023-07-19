@@ -7,6 +7,8 @@
 #include "bEngine/Log.h"
 #include "bEngine/Layer.h"
 #include "bEngine/ImGui/ImGuiLayer.h"
+#include "bEngine/MouseButtonCodes.h"
+#include "bEngine/KeyCodes.h"
 
 // --- Entry Point ------------------------------------------
 #include "bEngine/EntryPoint.h"

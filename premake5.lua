@@ -17,6 +17,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "bEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "bEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "bEngine/vendor/imgui"
+IncludeDir["glm"] = "bEngine/vendor/glm"
 
 -- include dependency premake file
 group "Dependencies"
@@ -40,11 +41,14 @@ project "bEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 	
 	includedirs 
 	{
+		"%{IncludeDir.glm}",
 		"%{prj.name}/vendor/spdlog/include",
 		"bEngine/src",
 		"%{IncludeDir.GLFW}",
@@ -110,7 +114,8 @@ project "Sandbox"
 	{
 		"bEngine/vendor/spdlog/include",
 		"bEngine/src",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 	
 	filter "system:windows"
