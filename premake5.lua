@@ -28,9 +28,10 @@ group ""
 
 project "bEngine"
 	location "bEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}") 
@@ -65,7 +66,6 @@ project "bEngine"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 		
 		defines
@@ -75,11 +75,6 @@ project "bEngine"
 			"GLFW_INCLUDE_NONE"
 		}
 		
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-		}
-		
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
 		symbols "On"
@@ -87,19 +82,20 @@ project "bEngine"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 		
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}") 
@@ -119,8 +115,6 @@ project "Sandbox"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "off"
 		systemversion "latest"
 		
 		defines
@@ -135,18 +129,15 @@ project "Sandbox"
 		
 	filter "configurations:Debug"
 		defines "BE_DEBUG"
-		symbols "On"
+		symbols "on"
 		runtime "Debug"
 		
 	filter "configurations:Release"
 		defines "BE_RELEASE"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
 		
 	filter "configurations:Dist"
 		defines "BE_DIST"
-		optimize "On"
+		optimize "on"
 		runtime "Release"
-		
-	
-
