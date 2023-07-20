@@ -23,6 +23,13 @@ public:
     {
         //BE_TRACE("{0}", event.ToString());
     }
+
+    void OnImGuiRender() override
+    {
+        ImGui::Begin("Test");
+        ImGui::Text("Hello");
+        ImGui::End();
+    }
 };
 
 class Sandbox : public bEngine::Application
@@ -31,7 +38,6 @@ public:
     Sandbox()
     {
         PushLayer(new ExampleLayer());
-        PushOverlay(new bEngine::ImGuiLayer());
     }
 
     ~Sandbox()
