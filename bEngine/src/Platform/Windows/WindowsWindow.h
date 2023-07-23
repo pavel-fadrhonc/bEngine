@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "bEngine/Window.h"
-
-#include <GLFW/glfw3.h>
+#include "bEngine/Renderer/GraphicsContext.h"
+#include "GLFW/glfw3.h"
 
 namespace bEngine
 {
@@ -28,6 +28,7 @@ namespace bEngine
         virtual void Shutdown();
         
         GLFWwindow* m_Window;
+        GraphicsContext* m_Context;
 
         struct WindowData
         {
