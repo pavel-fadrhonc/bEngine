@@ -12,3 +12,4 @@ Sandbox/x64/bin-int/
 *.vcxproj
 *.vcxproj.filters
 *.tlog
+*.user
