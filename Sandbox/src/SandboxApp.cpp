@@ -2,20 +2,15 @@
 
 #include <iostream>
 
-#include "bEngine/Input.h"
-#include "bEngine/Renderer/OrthographicCamera.h"
-#include "bEngine/Renderer/RenderCommand.h"
-#include "bEngine/Renderer/Renderer.h"
-#include "bEngine/Renderer/Shader.h"
+#include "bEngine.h"
 #include "glm/gtc/type_ptr.hpp"
 
 class ExampleLayer : public bEngine::Layer
 {
 public:
     ExampleLayer()  
-        :Layer("Example")
+        :Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
     {
-
         using VertexArray = bEngine::VertexArray;
         using VertexBuffer = bEngine::VertexBuffer;
         using IndexBuffer = bEngine::IndexBuffer;
@@ -141,26 +136,50 @@ public:
         m_ShaderSquare.reset(Shader::Create(vertexSourceSquare, fragmentSourceSquare));
     }
 
-    void OnUpdate() override
+    void OnUpdate(bEngine::Timestep dt) override
     {
-        //BE_INFO("Example layer updated.");
+        BE_TRACE("Delta time {0}s ({1}ms)", dt.GetSeconds(), dt.GetMilliseconds());
 
         bEngine::RenderCommand::SetClearColor( {0.1f,0.1f,0.1f,1 });
         bEngine::RenderCommand::Clear();
-
-        auto& camera = bEngine::Application::Get().GetCamera();
+        
         //camera.SetRotation(45);
-        bEngine::Renderer::BeginScene(camera);
+        bEngine::Renderer::BeginScene(m_Camera);
 
         static glm::vec2 translation = {0.0f, 0.0f};
         if (bEngine::Input::IsKeyPressed(BE_KEY_LEFT))
-            translation.x -= 0.01f;
+            translation.x -= m_ObjectMoveSpeed * dt;
         if (bEngine::Input::IsKeyPressed(BE_KEY_RIGHT))
-            translation.x += 0.01f;
+            translation.x += m_ObjectMoveSpeed * dt;
         if (bEngine::Input::IsKeyPressed(BE_KEY_DOWN))
-            translation.y -= 0.01f;
+            translation.y -= m_ObjectMoveSpeed * dt;
         if (bEngine::Input::IsKeyPressed(BE_KEY_UP))
-            translation.y += 0.01f;
+            translation.y += m_ObjectMoveSpeed * dt;
+        
+        if (bEngine::Input::IsKeyPressed(BE_KEY_A))
+        {
+            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(-m_CameraMoveSpeed * dt, 0.0f, 0.0f));
+        }
+        if (bEngine::Input::IsKeyPressed(BE_KEY_D))
+        {
+            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(m_CameraMoveSpeed * dt, 0.0f, 0.0f));
+        }
+        if (bEngine::Input::IsKeyPressed(BE_KEY_W))
+        {
+            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0.0f, m_CameraMoveSpeed * dt, 0.0f));
+        }
+        if (bEngine::Input::IsKeyPressed(BE_KEY_S))
+        {
+            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0.0f, -m_CameraMoveSpeed * dt, 0.0f));
+        }
+        if (bEngine::Input::IsKeyPressed(BE_KEY_Q))
+        {
+            m_Camera.SetRotation(m_Camera.GetRotation() - m_CameraRotationSpeed * dt);
+        }
+        if (bEngine::Input::IsKeyPressed(BE_KEY_E))
+        {
+            m_Camera.SetRotation(m_Camera.GetRotation() + m_CameraRotationSpeed * dt);
+        }
         
         auto T_square = glm::translate(glm::mat4(1.0), {translation.x, translation.y, 0.0f});
         auto R_square = mat4_cast(glm::quat(glm::vec3(0.0f, 0.0f, glm::pi<float>() * 0.25f)));
@@ -194,6 +213,11 @@ private:
     std::shared_ptr<bEngine::Shader> m_ShaderSquare;
     std::shared_ptr<bEngine::VertexArray> m_SquareVertexArray;
 
+    bEngine::OrthographicCamera m_Camera;
+
+    float m_CameraMoveSpeed = 0.5f;
+    float m_CameraRotationSpeed = 180;
+    float m_ObjectMoveSpeed = 10;
 };
 
 class Sandbox : public bEngine::Application

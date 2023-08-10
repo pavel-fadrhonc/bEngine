@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Core/Timestep.h"
 #include "Events/Event.h"
 
 namespace bEngine
@@ -11,7 +12,7 @@ namespace bEngine
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnUpdate() {}
+        virtual void OnUpdate(Timestep dt) {}
         virtual void OnEvent(Event& event) {}
         virtual void OnImGuiRender() {}
 

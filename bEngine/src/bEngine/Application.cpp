@@ -17,8 +17,7 @@ namespace bEngine
 
     Application* Application::s_Instance = nullptr;
     
-    bEngine::Application::Application() : m_Running(true),
-        m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+    bEngine::Application::Application() : m_Running(true)
     {
         BE_CORE_ASSERT(!s_Instance, "Application already exists!")
         
@@ -26,6 +25,7 @@ namespace bEngine
         
         m_Window = std::unique_ptr<Window>{Window::Create()};
         m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+        m_Window->SetVSync(true);
 
         m_ImGuiLayer = new ImGuiLayer;
         PushOverlay(m_ImGuiLayer);
@@ -42,9 +42,11 @@ namespace bEngine
         {
             // TODO: MOVE THIS TO SANDBOX
             //Renderer::Flush();
+
+            auto dt = m_Timer.SampleDeltaTime();
             
             for (Layer* layer : m_LayerStack)
-                layer->OnUpdate();
+                layer->OnUpdate(dt);
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)

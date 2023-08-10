@@ -4,10 +4,10 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "Window.h"
+#include "Core/Timer.h"
 #include "Events/ApplicationEvent.h"
 #include "Events/Event.h"
 #include "ImGui/ImGuiLayer.h"
-#include "Renderer/OrthographicCamera.h"
 
 namespace bEngine
 {
@@ -26,7 +26,6 @@ namespace bEngine
 
         static inline Application& Get() {return *s_Instance; }
         inline Window& GetWindow() const { return *m_Window;}
-        OrthographicCamera& GetCamera() { return m_Camera; }
         
     private:
         bool OnWindowClose(WindowCloseEvent& event);
@@ -35,10 +34,9 @@ namespace bEngine
         ImGuiLayer* m_ImGuiLayer;
         bool m_Running = false;
         LayerStack m_LayerStack;
+        Timer m_Timer;
         
         static Application* s_Instance;
-
-        OrthographicCamera m_Camera;
     };
 
     // To be defined in client
