@@ -6,12 +6,12 @@
 
 namespace bEngine
 {
-    VertexArray* VertexArray::Create()
+    Ref<VertexArray> VertexArray::Create()
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::APIType::None: return new VoidVertexArray();
-            case RendererAPI::APIType::OpenGL: return new OpenGLVertexArray(); 
+            case RendererAPI::APIType::None: return Ref<VertexArray>{new VoidVertexArray()};
+            case RendererAPI::APIType::OpenGL: return Ref<VertexArray>{new OpenGLVertexArray()}; 
         }
 
         BE_CORE_ASSERT(false, "Unsupported RenderAPI")

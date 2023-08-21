@@ -19,6 +19,7 @@
 
 #include "bEngine/Renderer/Buffer.h"
 #include "bEngine/Renderer/Shader.h"
+#include "bEngine/Renderer/Texture.h"
 #include "bEngine/Renderer/VertexArray.h"
 
 #include "bEngine/Renderer/OrthographicCamera.h"

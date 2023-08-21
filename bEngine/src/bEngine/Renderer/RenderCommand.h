@@ -6,7 +6,7 @@ namespace bEngine
     class RenderCommand
     {
     public:
-        static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+        static void DrawIndexed(const Ref<VertexArray>& vertexArray)
         {
             s_RendererAPI->DrawIndexed(vertexArray);
         }
@@ -20,7 +20,12 @@ namespace bEngine
         {
             s_RendererAPI->Clear();
         }
-        
+
+        static void Init()
+        {
+            s_RendererAPI->Init();
+        }
+
     private:
         static RendererAPI* s_RendererAPI;
         

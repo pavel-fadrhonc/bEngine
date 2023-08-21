@@ -18,6 +18,7 @@ IncludeDir["GLFW"] = "bEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "bEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "bEngine/vendor/imgui"
 IncludeDir["glm"] = "bEngine/vendor/glm"
+IncludeDir["stb"] = "bEngine/vendor/stb"
 
 -- include dependency premake file
 group "Dependencies"
@@ -30,7 +31,7 @@ project "bEngine"
 	location "bEngine"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++20"
 	staticruntime "on"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
@@ -44,7 +45,9 @@ project "bEngine"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb/**.h",
+		"%{prj.name}/vendor/stb/**.cpp"
 	}
 	
 	includedirs 
@@ -54,7 +57,8 @@ project "bEngine"
 		"bEngine/src",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.stb}"
 	}
 	
 	links 
@@ -94,7 +98,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++20"
 	staticruntime "on"
 	
 	targetdir("bin/" .. outputdir .. "/%{prj.name}") 
@@ -111,7 +115,8 @@ project "Sandbox"
 		"bEngine/vendor/spdlog/include",
 		"bEngine/src",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.Glad}"
 	}
 	
 	filter "system:windows"

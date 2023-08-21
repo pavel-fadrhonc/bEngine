@@ -5,8 +5,8 @@
 
 namespace bEngine
 {
-    std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
-    std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
+    bEngine::Ref<spdlog::logger> Log::s_ClientLogger;
+    bEngine::Ref<spdlog::logger> Log::s_CoreLogger;
     
     void Log::Init()
     {

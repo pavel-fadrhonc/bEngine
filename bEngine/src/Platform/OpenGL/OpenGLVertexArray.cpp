@@ -47,7 +47,7 @@ namespace bEngine
         glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer)
+    void OpenGLVertexArray::AddVertexBuffer(const bEngine::Ref<VertexBuffer>& buffer)
     {
         BE_CORE_ASSERT(buffer->GetLayout().GetElements().size(), "Vertex buffer has no layout");
         
@@ -71,7 +71,7 @@ namespace bEngine
         m_VertexBuffers.push_back(buffer);
     }
 
-    void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer)
+    void OpenGLVertexArray::SetIndexBuffer(const bEngine::Ref<IndexBuffer>& buffer)
     {
         glBindVertexArray(m_RendererID);
         buffer->Bind();

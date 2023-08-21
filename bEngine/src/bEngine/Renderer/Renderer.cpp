@@ -3,11 +3,18 @@
 
 #include "OrthographicCamera.h"
 #include "RenderCommand.h"
+#include "ShaderUniform.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace bEngine
 {
     OrthographicCamera* Renderer::m_Camera = nullptr;
-    
+
+    void Renderer::Init()
+    {
+        RenderCommand::Init();
+    }
+
     void Renderer::BeginScene(OrthographicCamera& camera)
     {
         m_Camera = &camera;        
@@ -17,12 +24,21 @@ namespace bEngine
     {
     }
 
-    void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader,
-        const glm::mat4& transform)
+    void Renderer::Submit(const bEngine::Ref<VertexArray>& vertexArray, const bEngine::Ref<Shader>& shader,
+        const glm::mat4& transform, std::span<ShaderUniform*> uniforms)
     {
         shader->Bind();
-        shader->UploadUniformMat4("u_ViewProjection", m_Camera->GetViewProjectionMatrix());
-        shader->UploadUniformMat4("u_Model", transform);
+
+        auto openglShader = std::dynamic_pointer_cast<OpenGLShader>(shader);
+        
+        openglShader->UploadUniformMat4("u_ViewProjection", m_Camera->GetViewProjectionMatrix());
+        openglShader->UploadUniformMat4("u_Model", transform);
+
+        for(const auto& uniform : uniforms)
+        {
+            uniform->SetUniform();
+        }
+        
         vertexArray->Bind();
         RenderCommand::DrawIndexed(vertexArray);
     }
