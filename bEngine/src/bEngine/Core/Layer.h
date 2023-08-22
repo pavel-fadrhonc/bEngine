@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Core/Timestep.h"
-#include "Events/Event.h"
+#include "bEngine/Core/Timestep.h"
+#include "bEngine/Events/Event.h"
 
 namespace bEngine
 {

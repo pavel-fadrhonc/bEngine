@@ -1,8 +1,9 @@
 ﻿#include "bepch.h"
 #include "bEngine/OrthographicCameraController.h"
 
-#include "bEngine/Input.h"
-#include "bEngine/KeyCodes.h"
+#include "bEngine/Core/Input.h"
+#include "bEngine/Core/KeyCodes.h"
+#include "bEngine/Core/Core.h"
 
 namespace bEngine
 {

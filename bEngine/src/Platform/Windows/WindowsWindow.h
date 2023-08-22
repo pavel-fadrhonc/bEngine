@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "bEngine/Window.h"
+#include "bEngine/Core/Window.h"
 #include "bEngine/Renderer/GraphicsContext.h"
 #include "GLFW/glfw3.h"
 

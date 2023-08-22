@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "../bEngine.h"
 
 #ifdef BE_PLATFORM_WINDOWS
 

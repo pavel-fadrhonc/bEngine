@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "bEngine/Input.h"
+#include "bEngine/Core/Input.h"
 
 namespace bEngine
 {

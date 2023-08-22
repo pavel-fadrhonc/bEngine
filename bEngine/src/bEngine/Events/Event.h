@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "bepch.h"
 
-#include "bEngine/Core.h"
+#include "bEngine/Core/Core.h"
 
 namespace bEngine {
     // Events in bEngine are currently blocking, meaning when ad event occurs it

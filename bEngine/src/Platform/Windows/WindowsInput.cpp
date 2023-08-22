@@ -2,7 +2,7 @@
 #include "WindowsInput.h"
 
 #include <GLFW/glfw3.h>
-#include "bEngine/Application.h"
+#include "bEngine/Core/Application.h"
 
 namespace bEngine
 {

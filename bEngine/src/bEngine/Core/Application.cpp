@@ -3,13 +3,11 @@
 #include "Application.h"
 
 #include "Log.h"
-#include "Events/ApplicationEvent.h"
+#include "bEngine/Events/ApplicationEvent.h"
 
 #include <GLFW/glfw3.h>
 
-#include "Input.h"
-#include "Renderer/RenderCommand.h"
-#include "Renderer/Renderer.h"
+#include "bEngine/Renderer/Renderer.h"
 
 namespace bEngine
 {

@@ -2,14 +2,14 @@
 
 // For use by bEngine applications
 
-#include "bEngine/Core.h"
-#include "bEngine/Application.h"
-#include "bEngine/Log.h"
-#include "bEngine/Layer.h"
+#include "bEngine/Core/Core.h"
+#include "bEngine/Core/Application.h"
+#include "bEngine/Core/Log.h"
+#include "bEngine/Core/Layer.h"
 
-#include "bEngine/Input.h"
-#include "bEngine/MouseButtonCodes.h"
-#include "bEngine/KeyCodes.h"
+#include "bEngine/Core/Input.h"
+#include "bEngine/Core/MouseButtonCodes.h"
+#include "bEngine/Core/KeyCodes.h"
 #include "bEngine/OrthographicCameraController.h"
 
 #include "bEngine/ImGui/ImGuiLayer.h"
@@ -26,5 +26,5 @@
 #include "bEngine/Renderer/OrthographicCamera.h"
 
 // --- Entry Point ------------------------------------------
-#include "bEngine/EntryPoint.h"
+#include "bEngine/Core/EntryPoint.h"
 // --- Entry Point ------------------------------------------

@@ -6,10 +6,10 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "Window.h"
-#include "Core/Timer.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/Event.h"
-#include "ImGui/ImGuiLayer.h"
+#include "bEngine/Core/Timer.h"
+#include "bEngine/Events/ApplicationEvent.h"
+#include "bEngine/Events/Event.h"
+#include "bEngine/ImGui/ImGuiLayer.h"
 
 namespace bEngine
 {
