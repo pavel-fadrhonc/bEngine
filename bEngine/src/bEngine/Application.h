@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <stdbool.h>
+
 #include "Core.h"
 #include "Layer.h"
 #include "LayerStack.h"
@@ -29,13 +31,15 @@ namespace bEngine
         
     private:
         bool OnWindowClose(WindowCloseEvent& event);
+        bool OnWindowsResize(WindowResizeEvent& event);
         
         std::unique_ptr<Window> m_Window;
         ImGuiLayer* m_ImGuiLayer;
         bool m_Running = false;
         LayerStack m_LayerStack;
         Timer m_Timer;
-        
+        bool m_Minimized = false;
+
         static Application* s_Instance;
     };
 

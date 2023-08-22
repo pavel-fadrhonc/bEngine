@@ -44,15 +44,18 @@ namespace bEngine
             //Renderer::Flush();
 
             auto dt = m_Timer.SampleDeltaTime();
-            
-            for (Layer* layer : m_LayerStack)
-                layer->OnUpdate(dt);
 
+            if (!m_Minimized)
+            {
+                for (Layer* layer : m_LayerStack)
+                    layer->OnUpdate(dt);
+            }
+            
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)
                 layer->OnImGuiRender();
             m_ImGuiLayer->End();
-            
+
             m_Window->OnUpdate();
         }
     }
@@ -75,10 +78,25 @@ namespace bEngine
         return true;   
     }
 
+    bool Application::OnWindowsResize(WindowResizeEvent& event)
+    {
+        if (event.GetWidth() == 0 || event.GetHeight() == 0)
+        {
+            m_Minimized = true;
+            return false;
+        }
+        
+        m_Minimized = false;
+        Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+
+        return false;
+    }
+
     void bEngine::Application::OnEvent(Event& e)
     {
         EventDispatcher dispatcher{e};
         dispatcher.Dispatch<WindowCloseEvent>(BE_BIND_EVENT_FUNC(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowResizeEvent>(BE_BIND_EVENT_FUNC(Application::OnWindowsResize));
 
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {

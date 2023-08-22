@@ -4,7 +4,7 @@
 
 namespace bEngine
 {
-    class   RendererAPI
+    class RendererAPI
     {
     public:
         enum class APIType
@@ -19,6 +19,7 @@ namespace bEngine
 
         virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) = 0;
         virtual void Init() = 0;
+        virtual void SetViewport(int x, int y, uint32_t width, uint32_t height) = 0;
 
         inline static APIType GetAPI() { return s_API; }
     private:

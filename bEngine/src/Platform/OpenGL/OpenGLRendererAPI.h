@@ -10,6 +10,7 @@ namespace bEngine
         void Clear() override;
         void DrawIndexed(const bEngine::Ref<VertexArray>& vertexArray) override;
         void Init() override;
+        void SetViewport(int x, int y, uint32_t width, uint32_t height) override;
     };
 }
 
