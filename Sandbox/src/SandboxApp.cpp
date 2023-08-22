@@ -7,7 +7,7 @@ class ExampleLayer : public bEngine::Layer
 {
 public:
     ExampleLayer()  
-        :Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+        :Layer("Example"), m_CameraController(16.0f / 9.0f, 1.0, 90, true)
     {
         using VertexArray = bEngine::VertexArray;
         using VertexBuffer = bEngine::VertexBuffer;
@@ -182,12 +182,15 @@ public:
     void OnUpdate(bEngine::Timestep dt) override
     {
         //BE_TRACE("Delta time {0}s ({1}ms)", dt.GetSeconds(), dt.GetMilliseconds());
+        // Update
+        m_CameraController.OnUpdate(dt);
 
+        // Render
         bEngine::RenderCommand::SetClearColor( {0.1f,0.1f,0.1f,1 });
         bEngine::RenderCommand::Clear();
         
         //camera.SetRotation(45);
-        bEngine::Renderer::BeginScene(m_Camera);
+        bEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 
         static glm::vec2 translation = {0.0f, 0.0f};
         if (bEngine::Input::IsKeyPressed(BE_KEY_LEFT))
@@ -198,31 +201,6 @@ public:
             translation.y -= m_ObjectMoveSpeed * dt;
         if (bEngine::Input::IsKeyPressed(BE_KEY_UP))
             translation.y += m_ObjectMoveSpeed * dt;
-        
-        if (bEngine::Input::IsKeyPressed(BE_KEY_A))
-        {
-            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(-m_CameraMoveSpeed * dt, 0.0f, 0.0f));
-        }
-        if (bEngine::Input::IsKeyPressed(BE_KEY_D))
-        {
-            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(m_CameraMoveSpeed * dt, 0.0f, 0.0f));
-        }
-        if (bEngine::Input::IsKeyPressed(BE_KEY_W))
-        {
-            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0.0f, m_CameraMoveSpeed * dt, 0.0f));
-        }
-        if (bEngine::Input::IsKeyPressed(BE_KEY_S))
-        {
-            m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0.0f, -m_CameraMoveSpeed * dt, 0.0f));
-        }
-        if (bEngine::Input::IsKeyPressed(BE_KEY_Q))
-        {
-            m_Camera.SetRotation(m_Camera.GetRotation() - m_CameraRotationSpeed * dt);
-        }
-        if (bEngine::Input::IsKeyPressed(BE_KEY_E))
-        {
-            m_Camera.SetRotation(m_Camera.GetRotation() + m_CameraRotationSpeed * dt);
-        }
 
         constexpr auto gridSize = std::pair{10,10};
         constexpr float tileSize = 0.1f;
@@ -273,6 +251,7 @@ public:
     void OnEvent(bEngine::Event& event) override
     {
         //BE_TRACE("{0}", event.ToString());
+        m_CameraController.OnEvent(event);
     }
 
     void OnImGuiRender() override
@@ -292,12 +271,10 @@ private:
     //bEngine::Ref<bEngine::Shader> m_ShaderTextured;
     bEngine::Ref<bEngine::Texture2D> m_Texture;
 
-    bEngine::OrthographicCamera m_Camera;
+    bEngine::OrthographicCameraController m_CameraController;
 
     bEngine::ShaderLibrary m_ShaderLibrary;
 
-    float m_CameraMoveSpeed = 0.5f;
-    float m_CameraRotationSpeed = 180;
     float m_ObjectMoveSpeed = 10;
 
     glm::vec3 m_Square1Color = {0.85f, 0.15f, 0.15f};

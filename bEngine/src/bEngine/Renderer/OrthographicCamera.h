@@ -14,6 +14,8 @@ namespace bEngine
             m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
         }
 
+        void SetProjection(float left, float right, float bottom, float top);
+        
         const glm::vec3& GetPosition() const { return m_Position; }
         void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateViewMatrix(); }
 
@@ -25,6 +27,7 @@ namespace bEngine
         const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
         void RecalculateViewMatrix();
+        void RecalculateViewProjectionMatrix();
 
     private:
         glm::vec3 m_Position;

@@ -10,6 +10,7 @@
 #include "bEngine/Input.h"
 #include "bEngine/MouseButtonCodes.h"
 #include "bEngine/KeyCodes.h"
+#include "bEngine/OrthographicCameraController.h"
 
 #include "bEngine/ImGui/ImGuiLayer.h"
 

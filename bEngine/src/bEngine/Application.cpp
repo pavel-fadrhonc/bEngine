@@ -13,8 +13,6 @@
 
 namespace bEngine
 {
-    #define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)
-
     Application* Application::s_Instance = nullptr;
     
     bEngine::Application::Application() : m_Running(true)
@@ -24,7 +22,7 @@ namespace bEngine
         s_Instance = this;
         
         m_Window = std::unique_ptr<Window>{Window::Create()};
-        m_Window->SetEventCallback(BIND_EVENT_FUNC(Application::OnEvent));
+        m_Window->SetEventCallback(BE_BIND_EVENT_FUNC(Application::OnEvent));
         m_Window->SetVSync(true);
 
         Renderer::Init();
@@ -80,7 +78,7 @@ namespace bEngine
     void bEngine::Application::OnEvent(Event& e)
     {
         EventDispatcher dispatcher{e};
-        dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowCloseEvent>(BE_BIND_EVENT_FUNC(Application::OnWindowClose));
 
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
