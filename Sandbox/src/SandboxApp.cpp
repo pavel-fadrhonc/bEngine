@@ -99,7 +99,7 @@ public:
             }
         )";
         
-        m_ShaderTriangle.reset(Shader::Create(vertexSourceTriangle, fragmentSourceTriangle));
+        m_ShaderTriangle = Shader::Create("Triangle", vertexSourceTriangle, fragmentSourceTriangle);
 
         std::string vertexSourceSquare = R"(
             #version 330 core
@@ -132,7 +132,7 @@ public:
             }
         )";
 
-        m_ShaderSquare.reset(Shader::Create(vertexSourceSquare, fragmentSourceSquare));
+        m_ShaderSquare = Shader::Create("Square", vertexSourceSquare, fragmentSourceSquare);
         
         std::string vertexSourceTextured = R"(
             #version 330 core
@@ -174,7 +174,8 @@ public:
 
         m_Texture = bEngine::Texture2D::Create("Assets/Textures/TextTest1.png");
 
-        m_ShaderTextured.reset(Shader::Create("Assets/Shaders/Texture.glsl"));
+        m_ShaderLibrary.Load("Assets/Shaders/Texture.glsl");
+
         //m_ShaderTextured.reset(Shader::Create(vertexSourceTextured, fragmentSourceTextured));
     }
 
@@ -251,12 +252,14 @@ public:
                     bEngine::Renderer::Submit(m_SquareVertexArray, m_ShaderSquare, transform, blueColUniform);
             }
         }
+
+        auto textureShader = m_ShaderLibrary.Get("Texture");
         
         m_Texture->Bind();
-        m_ShaderTextured->Bind();
-        auto textureUniform = bEngine::IntShaderUniform{m_ShaderTextured, "u_Texture", 0};
+        textureShader->Bind();
+        auto textureUniform = bEngine::IntShaderUniform{textureShader, "u_Texture", 0};
         std::array<bEngine::ShaderUniform*, 1> textureUniformArray {&textureUniform};
-        bEngine::Renderer::Submit(m_SquareVertexArray, m_ShaderTextured, glm::mat4{1.0}, textureUniformArray);
+        bEngine::Renderer::Submit(m_SquareVertexArray, textureShader, glm::mat4{1.0}, textureUniformArray);
         
 //        bEngine::Renderer::Submit(m_SquareVertexArray, m_ShaderSquare, T_square * R_square * S_square);
         //bEngine::Renderer::Submit(m_TriangleVertexArray, m_ShaderTriangle, glm::mat4(1.0f));
@@ -286,10 +289,12 @@ private:
     bEngine::Ref<bEngine::Shader> m_ShaderSquare;
     bEngine::Ref<bEngine::VertexArray> m_SquareVertexArray;
     
-    bEngine::Ref<bEngine::Shader> m_ShaderTextured;
+    //bEngine::Ref<bEngine::Shader> m_ShaderTextured;
     bEngine::Ref<bEngine::Texture2D> m_Texture;
 
     bEngine::OrthographicCamera m_Camera;
+
+    bEngine::ShaderLibrary m_ShaderLibrary;
 
     float m_CameraMoveSpeed = 0.5f;
     float m_CameraRotationSpeed = 180;

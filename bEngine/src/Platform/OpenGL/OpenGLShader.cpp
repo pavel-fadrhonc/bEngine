@@ -19,13 +19,15 @@ namespace bEngine
 	}
 	
 	OpenGLShader::OpenGLShader(const std::string& filepath)
+		: m_Name(ExtractName(filepath))
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
 	}
 
-    OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource)
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+	    : m_Name(name)
     {
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
@@ -169,8 +171,10 @@ namespace bEngine
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
     {
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
-		
+		BE_CORE_ASSERT(shaderSources.size() <= 2, "Max 2 shaders supported.")
+		std::array<GLenum, 2> glShaderIDs;
+
+		int glShaderIdIndex = 0;
 		for (const auto& [shaderType, source] : shaderSources)
 		{
 			GLuint shader = glCreateShader(shaderType);
@@ -199,7 +203,7 @@ namespace bEngine
 			}
 			
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIdIndex++] = shader;
 			
 			glLinkProgram(program);
 
