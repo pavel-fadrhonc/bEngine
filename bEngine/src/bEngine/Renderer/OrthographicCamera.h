@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include "PerspectiveCamera.h"
+
+#include "glm/gtc/type_ptr.hpp"
+#include "bEngine/Core/Core.h"
 
 namespace bEngine
 {

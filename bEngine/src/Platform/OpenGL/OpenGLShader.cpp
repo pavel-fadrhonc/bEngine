@@ -26,7 +26,15 @@ namespace bEngine
 		Compile(shaderSources);
 	}
 
-    OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath)
+		: m_Name(name)
+	{
+		std::string source = ReadFile(filepath);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	    : m_Name(name)
     {
 		std::unordered_map<GLenum, std::string> sources;

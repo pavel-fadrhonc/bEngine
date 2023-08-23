@@ -1,5 +1,7 @@
 #include <bEngine.h>
+#include "bEngine/Core/EntryPoint.h"
 
+#include "Sandbox2D.h"
 #include "bEngine/Renderer/Texture.h"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -286,7 +288,8 @@ class Sandbox : public bEngine::Application
 public:
     Sandbox()
     {
-        PushLayer(new ExampleLayer());
+        //PushLayer(new ExampleLayer());
+        PushLayer(new Sandbox2D());
     }
 
     ~Sandbox()

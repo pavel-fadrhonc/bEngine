@@ -18,6 +18,18 @@ namespace bEngine
 		return nullptr;
 	}
 
+	Ref<Shader> Shader::Create(const std::string& name, const std::string& path)
+	{
+		switch (Renderer::GetAPI())
+		{
+			case RendererAPI::APIType::None: return std::make_shared<VoidShader>();
+			case RendererAPI::APIType::OpenGL: return std::make_shared<OpenGLShader>(name, path); 
+		}
+
+		BE_CORE_ASSERT(false, "Unsupported RenderAPI")
+		return nullptr;
+	}
+
 	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	{
 		switch (Renderer::GetAPI())

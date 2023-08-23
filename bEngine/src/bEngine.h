@@ -24,7 +24,3 @@
 #include "bEngine/Renderer/VertexArray.h"
 
 #include "bEngine/Renderer/OrthographicCamera.h"
-
-// --- Entry Point ------------------------------------------
-#include "bEngine/Core/EntryPoint.h"
-// --- Entry Point ------------------------------------------

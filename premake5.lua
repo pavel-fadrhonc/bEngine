@@ -124,6 +124,7 @@ project "Sandbox"
 		
 		defines
 		{
+			BE_ENABLE_ASSERTS
 		}
 		
 	links
