@@ -124,7 +124,6 @@ project "Sandbox"
 		
 		defines
 		{
-			"BE_PLATFORM_WINDOWS"
 		}
 		
 	links
