@@ -4,6 +4,15 @@
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
+#ifdef BE_ENABLE_ASSERTS
+    int versionMajor;
+    int versionMinor;
+    glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+    glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+    BE_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "bEngine requires at least OpenGL version 4.5!");
+#endif
+
 namespace bEngine
 {
     void OpenGLContext::Init()
