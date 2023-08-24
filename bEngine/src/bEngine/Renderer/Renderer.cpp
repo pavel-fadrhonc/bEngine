@@ -3,8 +3,8 @@
 
 #include "OrthographicCamera.h"
 #include "RenderCommand.h"
+#include "Renderer2D.h"
 #include "ShaderUniform.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace bEngine
 {
@@ -13,6 +13,12 @@ namespace bEngine
     void Renderer::Init()
     {
         RenderCommand::Init();
+        Renderer2D::Init();
+    }
+
+    void Renderer::Shutdown()
+    {
+        Renderer2D::Shutdown();
     }
 
     void Renderer::OnWindowResize(uint32_t width, uint32_t height)
@@ -30,14 +36,12 @@ namespace bEngine
     }
 
     void Renderer::Submit(const bEngine::Ref<VertexArray>& vertexArray, const bEngine::Ref<Shader>& shader,
-        const glm::mat4& transform, std::span<ShaderUniform*> uniforms)
+        const glm::mat4& transform, std::span<Ref<ShaderUniform>> uniforms)
     {
         shader->Bind();
 
-        auto openglShader = std::dynamic_pointer_cast<OpenGLShader>(shader);
-        
-        openglShader->UploadUniformMat4("u_ViewProjection", m_Camera->GetViewProjectionMatrix());
-        openglShader->UploadUniformMat4("u_Model", transform);
+        shader->SetMat4("u_ViewProjection", m_Camera->GetViewProjectionMatrix());
+        shader->SetMat4("u_Model", transform);
 
         for(const auto& uniform : uniforms)
         {

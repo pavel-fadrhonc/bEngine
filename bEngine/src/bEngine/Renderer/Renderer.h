@@ -12,6 +12,7 @@ namespace bEngine
     {
     public:
         static void Init();
+        static void Shutdown();
         static void OnWindowResize(uint32_t width, uint32_t height);
         
         static void BeginScene(OrthographicCamera& camera);
@@ -20,7 +21,7 @@ namespace bEngine
         static void Submit(const bEngine::Ref<VertexArray>& vertexArray,
             const bEngine::Ref<Shader>& shader,
             const glm::mat4& transform = glm::mat4(1.0f),
-            std::span<ShaderUniform*> uniforms = {});
+            std::span<Ref<ShaderUniform>> uniforms = {});
         
         static RendererAPI::APIType GetAPI() { return RendererAPI::GetAPI(); }
 

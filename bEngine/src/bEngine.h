@@ -16,6 +16,7 @@
 
 // --- Renderer  ------------------------------------------
 #include "bEngine/Renderer/Renderer.h"
+#include "bEngine/Renderer/Renderer2D.h"
 #include "bEngine/Renderer/RenderCommand.h"
 
 #include "bEngine/Renderer/Buffer.h"

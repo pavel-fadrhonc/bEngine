@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "bEngine/Renderer/RenderCommand.h"
 #include "bEngine/Renderer/Renderer.h"
+#include "bEngine/Renderer/Renderer2D.h"
 #include "glm/gtc/type_ptr.hpp"
 
 Sandbox2D::Sandbox2D()
@@ -36,7 +37,6 @@ void Sandbox2D::OnAttach()
 
 void Sandbox2D::OnDetach()
 {
-    
 }
 
 void Sandbox2D::OnUpdate(bEngine::Timestep dt)
@@ -46,16 +46,15 @@ void Sandbox2D::OnUpdate(bEngine::Timestep dt)
     ben::RenderCommand::SetClearColor( {0.1f,0.1f,0.1f,1 });
     ben::RenderCommand::Clear();
     
-    ben::Renderer::BeginScene(m_CameraController.GetCamera());
+    ben::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-    auto redColorUniform = bEngine::Float4ShaderUniform{m_Shader, "u_Color", m_SquareColor};
-    std::array<bEngine::ShaderUniform*, 1> redColUniform {&redColorUniform};
-
-    auto translation = glm::translate(glm::mat4(1.0), glm::vec3(0,0,0));
+    ben::Renderer2D::DrawQuad({0.0, 0.0}, 0.0, {1.0, 1.0}, {0.8, 0.2, 0.3, 1.0});
     
-    bEngine::Renderer::Submit(m_VertexArray, m_Shader, translation, redColUniform);
+    //std::array<ben::Ref<ben::ShaderUniform>, 1> redColUniform {std::make_shared<ben::Float4ShaderUniform>(m_Shader, "u_Color", m_SquareColor)};
+    //auto translation = glm::translate(glm::mat4(1.0), glm::vec3(0,0,0));
+    //bEngine::Renderer::Submit(m_VertexArray, m_Shader, translation, redColUniform);
 
-    bEngine::Renderer::EndScene();
+    bEngine::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnEvent(bEngine::Event& event)

@@ -211,8 +211,8 @@ public:
         auto redColorUniform = bEngine::Float3ShaderUniform{m_ShaderSquare, "u_Color", m_Square1Color};
         auto blueColorUniform = bEngine::Float3ShaderUniform{m_ShaderSquare, "u_Color", m_Square2Color};
         
-        std::array<bEngine::ShaderUniform*, 1> redColUniform {&redColorUniform};
-        std::array<bEngine::ShaderUniform*, 1> blueColUniform {&blueColorUniform};
+        std::array<bEngine::Ref<bEngine::ShaderUniform>, 1> redColUniform {std::make_shared<bEngine::Float3ShaderUniform>(m_ShaderSquare, "u_Color", m_Square1Color)};
+        std::array<bEngine::Ref<bEngine::ShaderUniform>, 1> blueColUniform {std::make_shared<bEngine::Float3ShaderUniform>(m_ShaderSquare, "u_Color", m_Square2Color)};
 
         m_ShaderSquare->Bind();
         
@@ -237,8 +237,7 @@ public:
         
         m_Texture->Bind();
         textureShader->Bind();
-        auto textureUniform = bEngine::IntShaderUniform{textureShader, "u_Texture", 0};
-        std::array<bEngine::ShaderUniform*, 1> textureUniformArray {&textureUniform};
+        std::array<bEngine::Ref<bEngine::ShaderUniform>, 1> textureUniformArray {std::make_shared<bEngine::IntShaderUniform>(textureShader, "u_Texture", 0)};
         bEngine::Renderer::Submit(m_SquareVertexArray, textureShader, glm::mat4{1.0}, textureUniformArray);
         
 //        bEngine::Renderer::Submit(m_SquareVertexArray, m_ShaderSquare, T_square * R_square * S_square);

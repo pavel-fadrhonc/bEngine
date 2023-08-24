@@ -54,7 +54,7 @@ namespace bEngine
     	glUseProgram(0);
     }
 
-    void OpenGLShader::UploadUniformInt(const std::string& name, int value) const
+    void OpenGLShader::SetInt(const std::string& name, int value) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -65,7 +65,7 @@ namespace bEngine
     	glUniform1i(location, value);    	
     }
 
-    void OpenGLShader::UploadUniformFloat1(const std::string& name, const float value) const
+    void OpenGLShader::SetFloat1(const std::string& name, const float value) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -76,7 +76,7 @@ namespace bEngine
     	glUniform1f(location, value);    	
     }
 
-    void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value) const
+    void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& value) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -87,7 +87,7 @@ namespace bEngine
     	glUniform2fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value) const
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -98,7 +98,7 @@ namespace bEngine
     	glUniform3fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& vector) const
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -106,10 +106,10 @@ namespace bEngine
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
     		return;
     	}
-    	glUniform4fv(location, 1, glm::value_ptr(vector));
+    	glUniform4fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const
+	void OpenGLShader::SetMat3(const std::string& name, const glm::mat3& matrix) const
     {
     	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)
@@ -120,7 +120,7 @@ namespace bEngine
     	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
-	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix) const
     {
 	    GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     	if (location == -1)

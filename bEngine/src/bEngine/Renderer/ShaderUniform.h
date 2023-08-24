@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Shader.h"
 #include "glm/fwd.hpp"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace bEngine
 {
@@ -11,13 +10,13 @@ namespace bEngine
         virtual ~ShaderUniform() = default;
 
         ShaderUniform(Ref<Shader> shader, std::string name)
-            : m_Shader(std::dynamic_pointer_cast<OpenGLShader>(shader)), m_Name(std::move((name)))
+            : m_Shader(shader), m_Name(std::move((name)))
         {}
 
         virtual void SetUniform() const = 0;
 
     protected:
-        Ref<OpenGLShader> m_Shader;
+        Ref<Shader> m_Shader;
         std::string m_Name;
     };
 
@@ -30,7 +29,7 @@ namespace bEngine
 
         void SetUniform() const override
         {
-            m_Shader->UploadUniformMat4(m_Name, *m_Matrix);
+            m_Shader->SetMat4(m_Name, *m_Matrix);
         }
 
     private:
@@ -46,7 +45,7 @@ namespace bEngine
 
         void SetUniform() const override
         {
-            m_Shader->UploadUniformFloat4(m_Name, *m_Vector);
+            m_Shader->SetFloat4(m_Name, *m_Vector);
         }
 
     private:
@@ -62,7 +61,7 @@ namespace bEngine
 
         void SetUniform() const override
         {
-            m_Shader->UploadUniformFloat3(m_Name, *m_Vector);
+            m_Shader->SetFloat3(m_Name, *m_Vector);
         }
 
     private:
@@ -78,7 +77,7 @@ namespace bEngine
 
         void SetUniform() const override
         {
-            m_Shader->UploadUniformInt(m_Name, m_Value);
+            m_Shader->SetInt(m_Name, m_Value);
         }
 
     private:

@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "glm/fwd.hpp"
+
 namespace bEngine
 {
     class Shader
@@ -18,6 +20,15 @@ namespace bEngine
         static Ref<Shader> Create(const std::string& name, const std::string& path);
         static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
 
+        virtual void SetInt(const std::string& name, int value) const = 0;
+        virtual void SetFloat1(const std::string& name, float value) const = 0;
+        virtual void SetFloat2(const std::string& name, const glm::vec2& value) const = 0;
+        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const = 0;
+        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const = 0;
+
+        virtual void SetMat3(const std::string& name, const glm::mat3& matrix) const = 0;
+        virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const = 0;
+        
         static std::string ExtractName(const std::string& filepath);
     };
 
@@ -28,6 +39,15 @@ namespace bEngine
         virtual void Unbind() const override  {}
 
         virtual const std::string& GetName() const override {return m_Name;}
+
+        virtual void SetInt(const std::string& name, int value) const override {}
+        virtual void SetFloat1(const std::string& name, float value) const override {}
+        virtual void SetFloat2(const std::string& name, const glm::vec2& value) const override {}
+        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const override {}
+        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const override {}
+
+        virtual void SetMat3(const std::string& name, const glm::mat3& matrix) const override {}
+        virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const override {}
 
     private:
         std::string m_Name;

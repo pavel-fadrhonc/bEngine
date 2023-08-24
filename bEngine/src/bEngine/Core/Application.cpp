@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 
 #include "bEngine/Renderer/Renderer.h"
+#include "bEngine/Renderer/Renderer2D.h"
 
 namespace bEngine
 {
@@ -32,6 +33,7 @@ namespace bEngine
     bEngine::Application::~Application()
     {
         m_ImGuiLayer->OnDetach();
+        Renderer::Shutdown();
     }
 
     void bEngine::Application::Run()
