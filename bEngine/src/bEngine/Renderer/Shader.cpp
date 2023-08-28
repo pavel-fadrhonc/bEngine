@@ -6,7 +6,7 @@
 
 namespace bEngine
 {
-	Ref<Shader> Shader::Create(const std::string& path)
+	Ref<Shader> Shader::Create(std::string_view path)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -18,7 +18,7 @@ namespace bEngine
 		return nullptr;
 	}
 
-	Ref<Shader> Shader::Create(const std::string& name, const std::string& path)
+	Ref<Shader> Shader::Create(std::string_view name, std::string_view path)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -30,7 +30,7 @@ namespace bEngine
 		return nullptr;
 	}
 
-	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+	Ref<Shader> Shader::Create(std::string_view name, std::string_view vertexSource, std::string_view fragmentSource)
 	{
 		switch (Renderer::GetAPI())
 		{

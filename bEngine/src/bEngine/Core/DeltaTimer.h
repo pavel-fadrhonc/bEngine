@@ -3,10 +3,10 @@
 
 namespace bEngine
 {
-    class Timer
+    class DeltaTimer
     {
     public:
-        Timer()
+        DeltaTimer()
             : m_LastDeltaPoint()
         {}
         

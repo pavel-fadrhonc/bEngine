@@ -16,18 +16,18 @@ namespace bEngine
         virtual void Unbind() const = 0;
         virtual const std::string& GetName() const = 0;
 
-        static Ref<Shader> Create(const std::string& path);
-        static Ref<Shader> Create(const std::string& name, const std::string& path);
-        static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
+        static Ref<Shader> Create(std::string_view path);
+        static Ref<Shader> Create(std::string_view name, std::string_view path);
+        static Ref<Shader> Create(std::string_view name, std::string_view vertexSource, std::string_view fragmentSource);
 
-        virtual void SetInt(const std::string& name, int value) const = 0;
-        virtual void SetFloat1(const std::string& name, float value) const = 0;
-        virtual void SetFloat2(const std::string& name, const glm::vec2& value) const = 0;
-        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const = 0;
-        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const = 0;
+        virtual void SetInt(std::string_view name, int value) const = 0;
+        virtual void SetFloat1(std::string_view name, float value) const = 0;
+        virtual void SetFloat2(std::string_view name, const glm::vec2& value) const = 0;
+        virtual void SetFloat3(std::string_view name, const glm::vec3& value) const = 0;
+        virtual void SetFloat4(std::string_view name, const glm::vec4& value) const = 0;
 
-        virtual void SetMat3(const std::string& name, const glm::mat3& matrix) const = 0;
-        virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const = 0;
+        virtual void SetMat3(std::string_view name, const glm::mat3& matrix) const = 0;
+        virtual void SetMat4(std::string_view name, const glm::mat4& matrix) const = 0;
         
         static std::string ExtractName(const std::string& filepath);
     };
@@ -40,14 +40,14 @@ namespace bEngine
 
         virtual const std::string& GetName() const override {return m_Name;}
 
-        virtual void SetInt(const std::string& name, int value) const override {}
-        virtual void SetFloat1(const std::string& name, float value) const override {}
-        virtual void SetFloat2(const std::string& name, const glm::vec2& value) const override {}
-        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const override {}
-        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const override {}
+        virtual void SetInt(std::string_view name, int value) const override {}
+        virtual void SetFloat1(std::string_view name, float value) const override {}
+        virtual void SetFloat2(std::string_view name, const glm::vec2& value) const override {}
+        virtual void SetFloat3(std::string_view name, const glm::vec3& value) const override {}
+        virtual void SetFloat4(std::string_view name, const glm::vec4& value) const override {}
 
-        virtual void SetMat3(const std::string& name, const glm::mat3& matrix) const override {}
-        virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const override {}
+        virtual void SetMat3(std::string_view name, const glm::mat3& matrix) const override {}
+        virtual void SetMat4(std::string_view name, const glm::mat4& matrix) const override {}
 
     private:
         std::string m_Name;

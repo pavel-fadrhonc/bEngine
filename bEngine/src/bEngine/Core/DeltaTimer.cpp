@@ -1,12 +1,12 @@
 ﻿#include "bepch.h"
 
-#include "Timer.h"
+#include "DeltaTimer.h"
 
 #include "GLFW/glfw3.h"
 
 namespace bEngine
 {
-    Timestep Timer::SampleDeltaTime()
+    Timestep DeltaTimer::SampleDeltaTime()
     {
         auto now = glfwGetTime(); // this should be platform independent
         auto delta = now - m_LastDeltaPoint;

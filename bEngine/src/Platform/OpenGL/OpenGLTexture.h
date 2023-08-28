@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "bEngine/Renderer/Texture.h"
+#include "glad/glad.h"
 
 namespace bEngine
 {
@@ -7,10 +8,13 @@ namespace bEngine
     {
     public:
         OpenGLTexture2D(std::string path);
+        OpenGLTexture2D(uint32_t width, uint32_t height);
         ~OpenGLTexture2D() override;
 
         uint32_t GetWidth() const override { return m_Width; }
         uint32_t GetHeight() const override { return m_Height; }
+
+        void SetData(void* data, uint32_t size) override;
 
         void Bind(uint32_t slot = 0) const override;
 
@@ -18,6 +22,8 @@ namespace bEngine
         std::string m_Path;
         uint32_t m_Width{}, m_Height{};
         uint32_t m_RendererID{};
+
+        GLenum m_DataFormat{0};
     };
 }
 

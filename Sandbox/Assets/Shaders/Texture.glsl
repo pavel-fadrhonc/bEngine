@@ -26,9 +26,10 @@ in vec3 v_Position;
 in vec2 v_TextCoord;
 
 uniform sampler2D u_Texture;
+uniform vec4 u_Color;
            
 void main()
 {
     //color = vec4(v_TextCoord, 0.0, 1.0);
-    color = texture(u_Texture, v_TextCoord);
+    color = texture(u_Texture, v_TextCoord) * u_Color;
 }

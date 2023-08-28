@@ -3,11 +3,13 @@
 #include "OpenGLShader.h"
 
 #include <glad/glad.h>
+
+#include "bEngine/Timer.h"
 #include "glm/gtc/type_ptr.hpp"
 
 namespace bEngine
 {
-	static GLenum ShaderTypeFromString(const std::string& type)
+	static GLenum ShaderTypeFromString(std::string_view type)
 	{
 		if (type == "vertex")
 			return GL_VERTEX_SHADER;
@@ -18,15 +20,15 @@ namespace bEngine
 		return 0;
 	}
 	
-	OpenGLShader::OpenGLShader(const std::string& filepath)
-		: m_Name(ExtractName(filepath))
+	OpenGLShader::OpenGLShader(std::string_view filepath)
+		: m_Name(ExtractName(filepath.data()))
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath)
+	OpenGLShader::OpenGLShader(std::string_view name, std::string_view filepath)
 		: m_Name(name)
 	{
 		std::string source = ReadFile(filepath);
@@ -34,7 +36,7 @@ namespace bEngine
 		Compile(shaderSources);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+	OpenGLShader::OpenGLShader(std::string_view name, std::string_view vertexSource, std::string_view fragmentSource)
 	    : m_Name(name)
     {
 		std::unordered_map<GLenum, std::string> sources;
@@ -50,13 +52,13 @@ namespace bEngine
     }
 
     void OpenGLShader::Unbind() const
-    {
+    { 
     	glUseProgram(0);
     }
 
-    void OpenGLShader::SetInt(const std::string& name, int value) const
+    void OpenGLShader::SetInt(std::string_view name, int value) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -65,9 +67,9 @@ namespace bEngine
     	glUniform1i(location, value);    	
     }
 
-    void OpenGLShader::SetFloat1(const std::string& name, const float value) const
+    void OpenGLShader::SetFloat1(std::string_view name, const float value) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -76,9 +78,9 @@ namespace bEngine
     	glUniform1f(location, value);    	
     }
 
-    void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& value) const
+    void OpenGLShader::SetFloat2(std::string_view name, const glm::vec2& value) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -87,9 +89,9 @@ namespace bEngine
     	glUniform2fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value) const
+	void OpenGLShader::SetFloat3(std::string_view name, const glm::vec3& value) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -98,9 +100,9 @@ namespace bEngine
     	glUniform3fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) const
+	void OpenGLShader::SetFloat4(std::string_view name, const glm::vec4& value) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -109,9 +111,9 @@ namespace bEngine
     	glUniform4fv(location, 1, glm::value_ptr(value));
     }
 
-	void OpenGLShader::SetMat3(const std::string& name, const glm::mat3& matrix) const
+	void OpenGLShader::SetMat3(std::string_view name, const glm::mat3& matrix) const
     {
-    	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
     		BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -120,9 +122,9 @@ namespace bEngine
     	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
-	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix) const
+	void OpenGLShader::SetMat4(std::string_view name, const glm::mat4& matrix) const
     {
-	    GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+	    GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
 		{
 			BE_CORE_WARN("Uniform '{0}' not found!", name);
@@ -131,10 +133,10 @@ namespace bEngine
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
-	std::string OpenGLShader::ReadFile(const std::string& filepath)
+	std::string OpenGLShader::ReadFile(std::string_view filepath)
 	{
 		std::string result;
-		std::ifstream in(filepath, std::ios::in | std::ios::binary);
+		std::ifstream in(filepath.data(), std::ios::in | std::ios::binary);
 
 		if (in)
 		{

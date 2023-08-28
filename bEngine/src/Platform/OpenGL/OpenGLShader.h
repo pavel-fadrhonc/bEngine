@@ -9,9 +9,9 @@ namespace bEngine
     class OpenGLShader : public Shader
     {
     public:
-        OpenGLShader(const std::string& filepath);
-        OpenGLShader(const std::string& name, const std::string& filepath);
-        OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
+        OpenGLShader(std::string_view filepath);
+        OpenGLShader(std::string_view name, std::string_view filepath);
+        OpenGLShader(std::string_view name, std::string_view vertexSource, std::string_view fragmentSource);
 
         ~OpenGLShader() override = default;
         
@@ -20,17 +20,17 @@ namespace bEngine
 
         virtual const std::string& GetName() const override { return m_Name; }
 
-        void SetInt(const std::string& name, int value) const override;
-        void SetFloat1(const std::string& name, float value) const override;
-        void SetFloat2(const std::string& name, const glm::vec2& value) const override;
-        void SetFloat3(const std::string& name, const glm::vec3& value) const override;
-        void SetFloat4(const std::string& name, const glm::vec4& value) const override;
+        void SetInt(std::string_view name, int value) const override;
+        void SetFloat1(std::string_view name, float value) const override;
+        void SetFloat2(std::string_view name, const glm::vec2& value) const override;
+        void SetFloat3(std::string_view name, const glm::vec3& value) const override;
+        void SetFloat4(std::string_view name, const glm::vec4& value) const override;
 
-        void SetMat3(const std::string& name, const glm::mat3& matrix) const override;
-        void SetMat4(const std::string& name, const glm::mat4& matrix) const override;
+        void SetMat3(std::string_view name, const glm::mat3& matrix) const override;
+        void SetMat4(std::string_view name, const glm::mat4& matrix) const override;
 
     private:
-        std::string ReadFile(const std::string& filepath);
+        std::string ReadFile(std::string_view filepath);
         
         std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
         void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);

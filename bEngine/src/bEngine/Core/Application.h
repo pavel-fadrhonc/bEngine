@@ -6,7 +6,7 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include "Window.h"
-#include "bEngine/Core/Timer.h"
+#include "bEngine/Core/DeltaTimer.h"
 #include "bEngine/Events/ApplicationEvent.h"
 #include "bEngine/Events/Event.h"
 #include "bEngine/ImGui/ImGuiLayer.h"
@@ -37,7 +37,7 @@ namespace bEngine
         ImGuiLayer* m_ImGuiLayer;
         bool m_Running = false;
         LayerStack m_LayerStack;
-        Timer m_Timer;
+        DeltaTimer m_Timer;
         bool m_Minimized = false;
 
         static Application* s_Instance;

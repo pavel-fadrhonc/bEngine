@@ -78,6 +78,20 @@ namespace bEngine
     using Scope = std::unique_ptr<T>;
 
     template
+    <typename T, typename ... Targs>
+    constexpr Scope<T> CreateScope(Targs&& ... args)
+    {
+        return std::make_unique<T>(std::forward<Targs>(args)...);
+    }
+
+    template
     <typename T>
     using Ref = std::shared_ptr<T>;
+
+    template
+    <typename T, typename ... Targs>
+    constexpr Ref<T> CreateRef(Targs&&... args)
+    {
+        return std::make_shared<T>(std::forward<Targs>(args)...);
+    }
 }
