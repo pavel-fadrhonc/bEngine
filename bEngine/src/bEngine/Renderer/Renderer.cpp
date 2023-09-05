@@ -12,6 +12,7 @@ namespace bEngine
 
     void Renderer::Init()
     {
+        BE_PROFILE_FUNCTION();
         RenderCommand::Init();
         Renderer2D::Init();
     }

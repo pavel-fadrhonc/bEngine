@@ -25,6 +25,7 @@ namespace bEngine
     
     WindowsWindow::WindowsWindow(const WindowProps& props)
     {
+        BE_PROFILE_FUNCTION();
         Init(props);
     }
 
@@ -35,6 +36,7 @@ namespace bEngine
 
     void WindowsWindow::Init(const WindowProps& props)
     {
+        BE_PROFILE_FUNCTION();
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
@@ -153,12 +155,15 @@ namespace bEngine
 
     void WindowsWindow::OnUpdate()
     {
+        BE_PROFILE_FUNCTION();
         glfwPollEvents();
         m_Context->SwapBuffers();
     }
 
     void WindowsWindow::SetVSync(bool enabled)
     {
+        BE_PROFILE_FUNCTION();
+        
         if (enabled)
             glfwSwapInterval(1);
         else
@@ -174,6 +179,7 @@ namespace bEngine
 
     void WindowsWindow::Shutdown()
     {
+        BE_PROFILE_FUNCTION();
         glfwDestroyWindow(m_Window);
     }
 }

@@ -18,6 +18,7 @@ namespace bEngine
 
     void OrthographicCameraController::OnUpdate(Timestep timestep)
     {
+        BE_PROFILE_FUNCTION();
         if (Input::IsKeyPressed(BE_KEY_A))
         {
             m_CameraPosition += glm::vec3(-m_CameraTranslationSpeed * timestep, 0.0f, 0.0f);
@@ -54,6 +55,7 @@ namespace bEngine
 
     void OrthographicCameraController::OnEvent(Event& e)
     {
+        BE_PROFILE_FUNCTION();
         EventDispatcher dispatcher{e};
 
         dispatcher.Dispatch<MouseScrolledEvent>(BE_BIND_EVENT_FUNC(OrthographicCameraController::OnMouseScrolled));
@@ -62,6 +64,7 @@ namespace bEngine
 
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
     {
+        BE_PROFILE_FUNCTION();
         m_ZoomLevel -= e.GetYOffset() * m_CameraZoomSpeed;
         m_ZoomLevel = std::clamp(m_ZoomLevel, MIN_ZOOM, MAX_ZOOM);
         m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
@@ -71,6 +74,7 @@ namespace bEngine
 
     bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
     {
+        BE_PROFILE_FUNCTION();
         m_AspectRatio = static_cast<float>(e.GetWidth()) / static_cast<float>(e.GetHeight());
         m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
         

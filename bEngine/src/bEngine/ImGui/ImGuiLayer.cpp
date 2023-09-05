@@ -25,6 +25,7 @@ namespace bEngine
     
     void ImGuiLayer::OnAttach()
     {
+        BE_PROFILE_FUNCTION();
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -58,6 +59,7 @@ namespace bEngine
 
     void ImGuiLayer::OnDetach()
     {
+        BE_PROFILE_FUNCTION();
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -71,6 +73,7 @@ namespace bEngine
 
     void ImGuiLayer::Begin()
     {
+        BE_PROFILE_FUNCTION();
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -78,6 +81,7 @@ namespace bEngine
 
     void ImGuiLayer::End()
     {
+        BE_PROFILE_FUNCTION();
         auto io = ImGui::GetIO();
         Application& app = Application::Get();
         auto window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());

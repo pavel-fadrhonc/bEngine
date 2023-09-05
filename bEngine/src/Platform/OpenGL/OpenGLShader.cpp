@@ -4,7 +4,6 @@
 
 #include <glad/glad.h>
 
-#include "bEngine/Timer.h"
 #include "glm/gtc/type_ptr.hpp"
 
 namespace bEngine
@@ -23,6 +22,7 @@ namespace bEngine
 	OpenGLShader::OpenGLShader(std::string_view filepath)
 		: m_Name(ExtractName(filepath.data()))
 	{
+		BE_PROFILE_FUNCTION();
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -31,6 +31,7 @@ namespace bEngine
 	OpenGLShader::OpenGLShader(std::string_view name, std::string_view filepath)
 		: m_Name(name)
 	{
+		BE_PROFILE_FUNCTION();
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -39,6 +40,7 @@ namespace bEngine
 	OpenGLShader::OpenGLShader(std::string_view name, std::string_view vertexSource, std::string_view fragmentSource)
 	    : m_Name(name)
     {
+		BE_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
@@ -48,6 +50,7 @@ namespace bEngine
 
     void OpenGLShader::Bind() const
     {
+		BE_PROFILE_FUNCTION();
     	glUseProgram(m_RendererID);
     }
 
@@ -58,6 +61,7 @@ namespace bEngine
 
     void OpenGLShader::SetInt(std::string_view name, int value) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -69,6 +73,7 @@ namespace bEngine
 
     void OpenGLShader::SetFloat1(std::string_view name, const float value) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -80,6 +85,7 @@ namespace bEngine
 
     void OpenGLShader::SetFloat2(std::string_view name, const glm::vec2& value) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -91,6 +97,7 @@ namespace bEngine
 
 	void OpenGLShader::SetFloat3(std::string_view name, const glm::vec3& value) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -102,6 +109,7 @@ namespace bEngine
 
 	void OpenGLShader::SetFloat4(std::string_view name, const glm::vec4& value) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -113,6 +121,7 @@ namespace bEngine
 
 	void OpenGLShader::SetMat3(std::string_view name, const glm::mat3& matrix) const
     {
+		BE_PROFILE_FUNCTION();
     	GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
     	{
@@ -124,6 +133,7 @@ namespace bEngine
 
 	void OpenGLShader::SetMat4(std::string_view name, const glm::mat4& matrix) const
     {
+		BE_PROFILE_FUNCTION();
 	    GLint location = glGetUniformLocation(m_RendererID, name.data());
     	if (location == -1)
 		{
@@ -135,6 +145,7 @@ namespace bEngine
 
 	std::string OpenGLShader::ReadFile(std::string_view filepath)
 	{
+		BE_PROFILE_FUNCTION();
 		std::string result;
 		std::ifstream in(filepath.data(), std::ios::in | std::ios::binary);
 
@@ -156,6 +167,7 @@ namespace bEngine
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		BE_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -180,6 +192,7 @@ namespace bEngine
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
     {
+		BE_PROFILE_FUNCTION();
 		GLuint program = glCreateProgram();
 		BE_CORE_ASSERT(shaderSources.size() <= 2, "Max 2 shaders supported.")
 		std::array<GLenum, 2> glShaderIDs;

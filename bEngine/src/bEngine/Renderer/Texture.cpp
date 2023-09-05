@@ -6,6 +6,8 @@
 
 namespace bEngine
 {
+    const TextureShaderProperties TextureShaderProperties::Default = TextureShaderProperties{{1.0, 1.0 }, { 0.0, 0.0}};
+    
     Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height)
     {
         switch (Renderer::GetAPI())

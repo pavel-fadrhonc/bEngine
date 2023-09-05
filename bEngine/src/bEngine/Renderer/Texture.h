@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "glm/vec2.hpp"
+#include "glm/vec4.hpp"
 
 namespace bEngine
 {
@@ -34,6 +36,15 @@ namespace bEngine
             void SetData(void* data, uint32_t size) override {};
 
             void Bind(uint32_t slot = 0) const override {}
+    };
+
+    struct TextureShaderProperties
+    {
+        glm::vec2 Tiling {1.0, 1.0};
+        glm::vec2 Offset {0.0, 0.0};
+        glm::vec4 Color {1.0, 1.0, 1.0, 1.0};
+
+        const static TextureShaderProperties Default;
     };
 }
 

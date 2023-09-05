@@ -18,3 +18,4 @@
 #include <unordered_set>
 
 #include "bEngine/Core/Log.h"
+#include "bEngine/Debug/Instrumentor.h"

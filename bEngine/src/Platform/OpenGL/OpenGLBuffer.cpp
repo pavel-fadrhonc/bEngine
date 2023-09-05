@@ -9,6 +9,7 @@
 
 bEngine::OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size)
 {
+    BE_PROFILE_FUNCTION();
     glCreateBuffers(1, &m_RendererID);
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
@@ -16,16 +17,19 @@ bEngine::OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size)
 
 bEngine::OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
+    BE_PROFILE_FUNCTION();
     glDeleteBuffers(1, &m_RendererID);
 }
 
 void bEngine::OpenGLVertexBuffer::Bind() const
 {
+    BE_PROFILE_FUNCTION();
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 }
 
 void bEngine::OpenGLVertexBuffer::Unbind() const
 {
+    BE_PROFILE_FUNCTION();
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
