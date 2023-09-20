@@ -117,8 +117,10 @@ namespace bEngine
 
         virtual void SetLayout(const BufferLayout& layout) = 0;
         virtual const BufferLayout& GetLayout() const = 0;
+        virtual void SetData(const void* data, uint32_t size) = 0;
 
-        static VertexBuffer* Create(float* vertices, size_t size);
+        static Ref<VertexBuffer> Create(size_t size);
+        static Ref<VertexBuffer> Create(float* vertices, size_t size);
     };
 
     class IndexBuffer
@@ -131,7 +133,7 @@ namespace bEngine
 
         virtual uint32_t GetCount() const = 0;
 
-        static IndexBuffer* Create(uint32_t* indices, size_t size);
+        static Ref<IndexBuffer> Create(uint32_t* indices, size_t size);
     };
 
     class VoidBufferLayout : public BufferLayout
@@ -146,6 +148,8 @@ namespace bEngine
         
         virtual void SetLayout(const BufferLayout& layout) override {}
         virtual const BufferLayout& GetLayout() const override { return m_BufferLayout;}
+
+        virtual void SetData(const void* data, uint32_t size) {}
 
     private:
         VoidBufferLayout m_BufferLayout;

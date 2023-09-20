@@ -11,6 +11,7 @@ namespace bEngine
     {
     public:
         OpenGLVertexBuffer(float* vertices, size_t size);
+        OpenGLVertexBuffer(size_t size);
         
         virtual ~OpenGLVertexBuffer() override;
 
@@ -19,6 +20,7 @@ namespace bEngine
 
         virtual void SetLayout(const BufferLayout& layout) override { m_BufferLayout = layout; }
         virtual const BufferLayout& GetLayout() const override { return m_BufferLayout;}
+        virtual void SetData(const void* data, uint32_t size);
 
     private:
         uint32_t m_RendererID;

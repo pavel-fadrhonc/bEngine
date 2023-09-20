@@ -46,11 +46,12 @@ void Sandbox2D::OnUpdate(bEngine::Timestep dt)
         ben::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
         //ben::Renderer2D::DrawQuad({0.0, 0.0}, 0.0, {1.0, 1.0}, {0.8, 0.2, 0.3, 1.0}, m_quadTexture);
-        ben::Renderer2D::DrawQuad({0.0, 0.0, -0.9}, {10, 10}, m_checkerBoardTexture,
-            {{3.0, 3.0}, {0.5, 0.5}, {1.0,1.0,1.0,1.0}});
+        //ben::Renderer2D::DrawQuad({0.0, 0.0, -0.9}, {10, 10}, m_checkerBoardTexture,
+        //    {{3.0, 3.0}, {0.5, 0.5}, {1.0,1.0,1.0,1.0}});
         ben::Renderer2D::DrawQuad({0.0, 0.0, 0.5},{1.0, 1.0}, {0.8, 0.2, 0.3, 1.0});
+        ben::Renderer2D::DrawQuad({-1.0, 1.0, 0.5},{0.5, 2.0}, {0.2, 0.8, 0.3, 1.0});
         //ben::Renderer2D::DrawQuad({1.0, -0.5}, 30.0, {0.5, 3.0}, {1.0,1.0,1.0,1.0});
-        ben::Renderer2D::DrawQuadRotated({1.0, -0., 0}, 30.0, {0.5, 3.0}, m_quadTexture);
+        //ben::Renderer2D::DrawQuadRotated({1.0, -0., 0}, 30.0, {0.5, 3.0}, m_quadTexture);
         bEngine::Renderer2D::EndScene();
     }
 }

@@ -6,24 +6,36 @@
 
 namespace bEngine
 {
-    VertexBuffer* VertexBuffer::Create(float* vertices, size_t size)
+    Ref<VertexBuffer> VertexBuffer::Create(size_t size)
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::APIType::None: return new VoidVertexBuffer();
-            case RendererAPI::APIType::OpenGL: return new OpenGLVertexBuffer(vertices, size); 
+            case RendererAPI::APIType::None: return CreateRef<VoidVertexBuffer>();
+            case RendererAPI::APIType::OpenGL: return CreateRef<OpenGLVertexBuffer>(size); 
+        }
+
+        BE_CORE_ASSERT(false, "Unsupported RenderAPI")
+        return nullptr;   
+    }
+
+    Ref<VertexBuffer> VertexBuffer::Create(float* vertices, size_t size)
+    {
+        switch (Renderer::GetAPI())
+        {
+            case RendererAPI::APIType::None: return CreateRef<VoidVertexBuffer>();
+            case RendererAPI::APIType::OpenGL: return CreateRef<OpenGLVertexBuffer>(vertices, size); 
         }
 
         BE_CORE_ASSERT(false, "Unsupported RenderAPI")
         return nullptr;
     }
 
-    IndexBuffer* IndexBuffer::Create(uint32_t* indices, size_t size)
+    Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, size_t count)
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::APIType::None: return new VoidIndexBuffer();
-            case RendererAPI::APIType::OpenGL: return new OpenGLIndexBuffer(indices, size); 
+            case RendererAPI::APIType::None: return CreateRef<VoidIndexBuffer>();
+            case RendererAPI::APIType::OpenGL: return CreateRef<OpenGLIndexBuffer>(indices, count); 
         }
 
         BE_CORE_ASSERT(false, "Unsupported RenderAPI")

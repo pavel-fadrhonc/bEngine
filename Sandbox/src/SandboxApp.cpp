@@ -26,8 +26,7 @@ public:
             0.0f, 0.5f, 0.0f,       0.8f, 0.8f, 0.2f, 1.0f,
         };
         
-        bEngine::Ref<VertexBuffer> triangleVertexBuffer;
-        triangleVertexBuffer.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
+        bEngine::Ref<VertexBuffer> triangleVertexBuffer = VertexBuffer::Create(vertices,sizeof(vertices));
         
         BufferLayout bufferLayout {
             {ShaderDataType::Float3, "a_Position"},
@@ -38,8 +37,7 @@ public:
         m_TriangleVertexArray->AddVertexBuffer(triangleVertexBuffer);
 
         uint32_t indices[3] = {0, 1, 2};
-        bEngine::Ref<IndexBuffer> indexBufferTriangle;
-        indexBufferTriangle.reset(IndexBuffer::Create(indices,sizeof(indices)));
+        bEngine::Ref<IndexBuffer> indexBufferTriangle = IndexBuffer::Create(indices,sizeof(indices));
         m_TriangleVertexArray->SetIndexBuffer(indexBufferTriangle);
 
         m_SquareVertexArray = VertexArray::Create();
@@ -51,8 +49,7 @@ public:
             -0.5f,  0.5f, 0.0f, 0.0, 1.0 
          };
 
-        bEngine::Ref<VertexBuffer> squareVertexBuffer;
-        squareVertexBuffer.reset(VertexBuffer::Create(verticesSq,sizeof(verticesSq)));
+        bEngine::Ref<VertexBuffer> squareVertexBuffer = VertexBuffer::Create(verticesSq,sizeof(verticesSq));
         
         squareVertexBuffer->SetLayout({
                 {ShaderDataType::Float3, "a_Position"},
@@ -62,8 +59,7 @@ public:
         m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
         uint32_t indicesSq[6] = {0, 1, 2, 0, 2, 3};
-        bEngine::Ref<IndexBuffer> indexBufferSquare;
-        indexBufferSquare.reset(IndexBuffer::Create(indicesSq,sizeof(indicesSq)));
+        bEngine::Ref<IndexBuffer> indexBufferSquare = IndexBuffer::Create(indicesSq,sizeof(indicesSq));
         m_SquareVertexArray->SetIndexBuffer(indexBufferSquare);
         
         std::string vertexSourceTriangle = R"(
